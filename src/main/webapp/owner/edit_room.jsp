@@ -1,4 +1,4 @@
-<%@page import="com.entity.User"%>
+<%@page import="com.entity.Room"%>
 <%@page import="com.entity.RoomType"%>
 <%@page import="com.entity.Category"%>
 <%@page import="com.util.DBConnect"%>
@@ -16,19 +16,16 @@
 <%@include file="../component/css.jsp"%>
 </head>
 <body>
-	<c:if test="${empty userObj }">
+	<%-- <c:if test="${empty adminObj }">
 		<c:redirect url="../login.jsp"></c:redirect>
-	</c:if>
-	<%
-	User user = (User) session.getAttribute("userObj");
-	%>
+	</c:if> --%>
 	<%@include file="navbar.jsp"%>
 	<div class="container">
 		<div class="row p-5 mt-3">
 			<div class="col-md-10 offset-md-1">
 				<div class="card card-sh">
 					<div class="card-header text-center">
-						<h3 class="text-center">Add Room</h3>
+						<h3 class="text-center">Edit Room</h3>
 						<c:if test="${not empty errorMsg}">
 							<p class="fs-4 text-center text-danger">${errorMsg}</p>
 							<c:remove var="errorMsg" scope="session" />
@@ -39,24 +36,29 @@
 						</c:if>
 					</div>
 					<div class="card-body">
-
-						<form action="../addRoom" method="post">
+						<%
+						RoomDAO dao = new RoomDAO(DBConnect.getConnection());
+						int id = Integer.parseInt(request.getParameter("id"));
+						Room rm = dao.getRoomDetailsById(id);
+						%>
+						<form action="../updateRoom" method="post">
 							<div class="row">
 								<div class="mb-3 col">
 									<label>Enter Title</label> <input type="text"
-										class="form-control" name="title">
+										class="form-control" name="title" value="<%=rm.getTitle()%>">
 								</div>
 								<div class="mb-3 col">
 									<label>Category</label> <select class="form-control"
 										name="category">
-										<option>--select--</option>
+										<option><%=rm.getCategory()%></option>
 										<%
-										RoomDAO dao = new RoomDAO(DBConnect.getConnection());
 										List<Category> list = dao.getAllCategory();
 										for (Category c : list) {
+											if (!c.getName().equalsIgnoreCase(rm.getCategory())) {
 										%>
 										<option><%=c.getName()%></option>
 										<%
+										}
 										}
 										%>
 										<option>PG</option>
@@ -65,13 +67,16 @@
 								<div class="mb-3 col">
 									<label>Room type</label> <select class="form-control"
 										name="roomType">
-										<option>--select--</option>
+										<option><%=rm.getRoomType()%></option>
 										<%
 										List<RoomType> rooms = dao.getAllRoomType();
 										for (RoomType r : rooms) {
+											if (!r.getName().equals(rm.getRoomType())) {
 										%>
 										<option><%=r.getName()%></option>
 										<%
+										}
+
 										}
 										%>
 
@@ -81,55 +86,59 @@
 							<div class="mb-3">
 								<label>Enter Description</label>
 								<textarea rows="3" cols="" name="description"
-									class="form-control"></textarea>
+									class="form-control"><%=rm.getDescription()%></textarea>
 							</div>
 
 							<div class="row">
 								<div class="col mb-3">
 									<label>Email</label> <input type="email" class="form-control"
-										name="email">
+										name="email" value="<%=rm.getEmail()%>">
 								</div>
 								<div class="col mb-3">
 									<label>Mobile number</label> <input type="number"
-										class="form-control" name="mobileNumber">
+										class="form-control" name="mobileNumber"
+										value="<%=rm.getMobileNumber()%>">
 								</div>
 								<div class="mb-3 col">
 									<label>Price / Monthly</label> <input type="number"
-										class="form-control" name="monthlyCost">
+										class="form-control" name="monthlyCost"
+										value="<%=rm.getMonthlyCost()%>">
 								</div>
 
 							</div>
 							<div class="row">
 								<div class="col mb-3">
 									<label>Location Link</label> <input type="text"
-										class="form-control" name="locationLink">
+										class="form-control" name="locationLink"
+										value="<%=rm.getLocationLink()%>">
 								</div>
 								<div class="col mb-3">
 									<label>Distance</label> <input type="text" class="form-control"
-										name="distance">
+										value="<%=rm.getDistance()%>" name="distance">
 								</div>
 							</div>
 							<div class="row">
 								<div class="col mb-3">
 									<label>Address</label> <input type="text" class="form-control"
-										name="address">
+										value="<%=rm.getAddress()%>" name="address">
 								</div>
 								<div class="col mb-3">
 									<label>City</label> <input type="text" class="form-control"
-										name="city">
+										value="<%=rm.getCity()%>" name="city">
 								</div>
 								<div class="col mb-3">
 									<label>State</label> <input type="text" class="form-control"
-										name="state">
+										value="<%=rm.getState()%>" name="state">
 								</div>
 								<div class="col mb-3">
 									<label>Pincode</label> <input type="text" class="form-control"
-										name="pincode">
+										value="<%=rm.getPincode()%>" name="pincode">
 								</div>
-								<input type="text" class="form-control" name="ownerId"
-									value="<%=user.getId()%>">
+								<input type="hidden" class="form-control" name="ownerId"
+									value="1"> <input type="hidden" class="form-control"
+									name="id" value="<%=rm.getId()%>">
 							</div>
-							<button class="btn btn-primary col-md-12">Submit</button>
+							<button class="btn btn-primary col-md-12">Update</button>
 						</form>
 					</div>
 				</div>

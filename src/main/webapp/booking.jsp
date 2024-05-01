@@ -1,3 +1,4 @@
+<%@page import="com.entity.User"%>
 <%@page import="com.entity.NearLocation"%>
 <%@page import="com.entity.RoomImage"%>
 <%@page import="java.util.List"%>
@@ -19,6 +20,7 @@
 	int id = Integer.parseInt(request.getParameter("id"));
 	RoomDAO dao = new RoomDAO(DBConnect.getConnection());
 	Room room = dao.getRoomDetailsById(id);
+	User user = (User) session.getAttribute("userObj");
 	%>
 
 	<div class="container card-sh" style="margin-top: 70px">
@@ -69,8 +71,7 @@
 								</thead>
 								<tbody>
 									<%
-									RoomDAO dao2 = new RoomDAO(DBConnect.getConnection());
-									List<NearLocation> locations = dao2.getNearLocation(id);
+									List<NearLocation> locations = dao.getNearLocation(id);
 									for (NearLocation loc : locations) {
 									%>
 									<tr>
@@ -88,39 +89,69 @@
 					</div>
 
 					<div class="col-md-6">
-						<p class="fs-3"><%=room.getTitle()%></p>
-						<p>
-							<span class="fw-bold">Description : </span><br><%=room.getDescription()%>
-						</p>
-						<p>
-							<span class="fw-bold"> Product Details: </span> <br>Status :
-							<%
-							 if (room.getStatus().equalsIgnoreCase("Available")) {
-							 %>
-							<span class="badge bg-success">Available</span>
-							<%
-							} else {
-							%>
-							<span class="badge bg-warning">Not Available</span>
-							<%
-							}
-							%>
+						<div class="card card-sh">
+							<div class="card-header text-center fs-5">Booking Details</div>
+							<c:if test="${not empty errorMsg}">
+								<p class="fw-bold text-center text-danger">${errorMsg}</p>
+								<c:remove var="errorMsg" scope="session" />
+							</c:if>
+							<c:if test="${not empty succMsg}">
+								<p class=" fw-bold text-center text-success">${succMsg}</p>
+								<c:remove var="succMsg" scope="session" />
+							</c:if>
+							<div class="card-body">
+								<form action="bookRoom" method="post"
+									enctype="multipart/form-data">
+									<div class="mb-3">
+										<label>Name</label> <input type="text" class="form-control"
+											name="name" required>
+									</div>
+									<div class="mb-3">
+										<label>Email</label> <input type="email" class="form-control"
+											name="email" required>
+									</div>
+									<div class="mb-3">
+										<label>Address</label> <input type="text" class="form-control"
+											name="address" required>
+									</div>
 
-							<br> Category :
-							<%=room.getCategory()%><br> Room Type :
-							<%=room.getRoomType()%>
-						</p>
-						<p class="fs-5 fw-bold">
-							Price :&nbsp; &nbsp; &nbsp; &nbsp;<i class="fas fa-rupee-sign"></i>
-							<%=room.getMonthlyCost()%>/Month
-						</p>
-						<c:if test="${empty userObj }">
-							<a href="login.jsp" class="btn btn-danger col-md-12">Book</a>
-						</c:if>
-						<c:if test="${not empty userObj }">
-							<a href="booking.jsp?id=<%=room.getId()%>"
-								class="btn btn-danger col-md-12">Book</a>
-						</c:if>
+									<div class="mb-3">
+										<label>Id Proof</label> <input type="file"
+											class="form-control" name="idProof" required>
+									</div>
+
+									<div class="mb-1">
+										<label>Student</label>
+										<div class="row p-3">
+											<div class="form-check col">
+												<input class="form-check-input" type="radio" checked
+													name="student" id="flexRadioDefault1"> <label
+													class="form-check-label" for="flexRadioDefault1">
+													Yes</label>
+											</div>
+											<div class="form-check col">
+												<input class="form-check-input" type="radio" name="student"
+													id="flexRadioDefault2"> <label
+													class="form-check-label" for="flexRadioDefault2">
+													No </label>
+											</div>
+										</div>
+
+									</div>
+
+									<div class="mb-3">
+										<label>College Name</label> <input type="text"
+											class="form-control" name="college" required>
+									</div>
+									<input type="hidden" name="userId" value="<%=user.getId()%>">
+									<input type="hidden" name="roomId" value="<%=room.getId()%>">
+									<input type="hidden" name="ownerId"
+										value="<%=room.getOwnerId()%>">
+
+									<button class="btn btn-primary">Book</button>
+								</form>
+							</div>
+						</div>
 
 					</div>
 				</div>

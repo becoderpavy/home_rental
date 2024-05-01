@@ -10,9 +10,9 @@
 <%@include file="../component/css.jsp"%>
 </head>
 <body>
-	<%-- <c:if test="${empty adminObj }">
+	<c:if test="${empty userObj }">
 		<c:redirect url="../login.jsp"></c:redirect>
-	</c:if> --%>
+	</c:if>
 	<%@include file="navbar.jsp"%>
 	<div class="container">
 
@@ -30,7 +30,7 @@
 				</a>
 			</div>
 			<div class="col-md-4">
-				<a href="category.jsp" class="text-decoration-none">
+				<a href="view_room.jsp" class="text-decoration-none">
 					<div class="card card-sh">
 						<div class="card-body text-center">
 							<i class="fas fa-sign-out-alt fa-3x text-primary"></i><br>
@@ -42,7 +42,7 @@
 			</div>
 
 			<div class="col-md-4">
-				<a href="view_product.jsp" class="text-decoration-none">
+				<a href="booking.jsp" class="text-decoration-none">
 					<div class="card card-sh">
 						<div class="card-body text-center">
 							<i class="fas fa-book-open fa-3x text-danger"></i></i><br>
@@ -65,7 +65,7 @@
 					</div>
 				</a>
 			</div>
-			
+
 			<div class="col-md-4 mt-3">
 				<a href="user.jsp" class="text-decoration-none">
 					<div class="card card-sh">
@@ -82,7 +82,7 @@
 				<a href="admin.jsp" class="text-decoration-none">
 					<div class="card card-sh">
 						<div class="card-body text-center">
-						<i class="fas fa-circle-user fa-3x text-primary"></i><br>
+							<i class="fas fa-circle-user fa-3x text-primary"></i><br>
 							<h4>Add Admin</h4>
 							-----------
 						</div>

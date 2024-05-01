@@ -56,7 +56,11 @@ $(function() {
 			}, img: {
 				required: true,
 			}
-
+			, userType: {
+				required: true,
+			}, idproof: {
+				required: true,
+			}
 
 		},
 		messages: {
@@ -114,6 +118,10 @@ $(function() {
 			},
 			img: {
 				required: 'image required',
+			}, userType: {
+				required: 'user type required',
+			}, idproof: {
+				required: 'id proof required',
 			}
 		}
 	})

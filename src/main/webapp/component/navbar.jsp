@@ -4,8 +4,8 @@
 <%@page isELIgnored="false"%>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
 	<div class="container-fluid">
-		<a class="navbar-brand" href="index.jsp"><i
-			class="fa-solid fa-cart-shopping"></i> Ecom Store</a>
+		<a class="navbar-brand" href="index.jsp"><i class="fas fa-home"></i>
+			Home Rental</a>
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
 			data-bs-target="#navbarSupportedContent"
 			aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -16,17 +16,34 @@
 
 			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 				<li class="nav-item"><a class="nav-link active"
-					aria-current="page" href="index.jsp"><i class="fas fa-home"></i>
-						HOME</a></li>
-				<li class="nav-item"><a class="nav-link active"
-					href="product.jsp?ca=all">Products</a></li>
+					href="index.jsp?ca=all">Room</a></li>
+			</ul>
 
-				<li class="nav-item dropdown"><a
-					class="nav-link dropdown-toggle active" href="#"
-					id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown"
-					aria-expanded="false"> Category </a>
-					<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-					</ul></li>
+			<ul class="navbar-nav ms-auto mb-2 mb-lg-0 ">
+				<c:if test="${ empty userObj }">
+					<li class="nav-item"><a class="nav-link active"
+						href="login.jsp"><i class="fa-solid fa-right-to-bracket"></i>
+							Login</a></li>
+
+					<li class="nav-item"><a class="nav-link active"
+						href="register.jsp">Register</a></li>
+				</c:if>
+				<c:if test="${not empty userObj }">
+				<li class="nav-item"><a class="nav-link active"
+						href="my_booking.jsp"><i class="fa-solid fa-list"></i>
+							Bookings</a></li>
+					<li class="nav-item dropdown"><a
+						class="nav-link active dropdown-toggle" href="#"
+						id="navbarDropdownMenuLink" role="button"
+						data-bs-toggle="dropdown" aria-expanded="false"><i
+							class="fas fa-user-circle"></i> ${userObj.fullName } </a>
+						<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+							<li><a class="dropdown-item" href="edit_profile.jsp">
+									View Profile</a></li>
+							<li><a class="dropdown-item" href="ulogout">logout</a></li>
+
+						</ul></li>
+				</c:if>
 			</ul>
 		</div>
 	</div>
