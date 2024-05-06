@@ -81,7 +81,9 @@ response.setDateHeader("Expires", 0);
 								<tr>
 									<th><%=loc.getName()%></th>
 									<td><%=loc.getDistance()%></td>
-									<td><a href="../deleteLoc?id=<%=loc.getId()%>&&rid=<%=loc.getRoomId() %>" class="btn btn-danger btn-sm">Delete</a></td>
+									<td><a
+										href="../deleteLoc?id=<%=loc.getId()%>&&rid=<%=loc.getRoomId()%>"
+										class="btn btn-danger btn-sm">Delete</a></td>
 								</tr>
 								<%
 								}

@@ -12,6 +12,9 @@
 <%@include file="../component/css.jsp"%>
 </head>
 <body>
+	<c:if test="${empty userObj }">
+		<c:redirect url="../login.jsp"></c:redirect>
+	</c:if>
 	<%@include file="../component/navbar.jsp"%>
 	<div class="container mt-5 p-5">
 		<div class="row">

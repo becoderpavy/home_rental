@@ -14,10 +14,8 @@
 
 	<div class="container mt-5 p-5">
 		<div class="row">
-			<div class="col-md-6 p-5">
-				<img alt="" src="data/img/ecom.png" width="100%" height="400px">
-			</div>
-			<div class="col-md-4 offset-md-1">
+			
+			<div class="col-md-4 offset-md-4">
 				<div class="card card-sh mt-5">
 					<div class="card-header">
 						<p class="fs-4 text-center">Login</p>
@@ -44,10 +42,6 @@
 							</div>
 							<button type="submit" class="btn bg-primary text-white col-md-12">Login</button>
 						</form>
-
-
-
-
 					</div>
 
 					<div class="card-header text-center mt-2">

@@ -93,7 +93,7 @@ public class RoomDAO {
 	public Boolean updateRoom(Room room) {
 		Boolean f = false;
 		try {
-			String sql = "update room  set title=?,category=?,roomType=?,description=?,email=?,mobileNumber=?,monthlyCost=?,locationLink=?,distance=?,address=?,city=?,state=?,pincode=? where id=?";
+			String sql = "update room  set title=?,category=?,roomType=?,description=?,email=?,mobileNumber=?,monthlyCost=?,locationLink=?,distance=?,address=?,city=?,state=?,pincode=?,status=? where id=?";
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, room.getTitle());
 			ps.setString(2, room.getCategory());
@@ -108,7 +108,8 @@ public class RoomDAO {
 			ps.setString(11, room.getCity());
 			ps.setString(12, room.getState());
 			ps.setString(13, room.getPincode());
-			ps.setInt(14, room.getId());
+			ps.setString(14, room.getStatus());
+			ps.setInt(15, room.getId());
 			int save = ps.executeUpdate();
 			if (save == 1)
 				f = true;
@@ -126,6 +127,28 @@ public class RoomDAO {
 			rs = ps.executeQuery();
 			rooms = getRoom(rs);
 		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return rooms;
+	}
+
+	public List<Room> getRoomBySearch(String ch) {
+		List<Room> rooms = null;
+		String sql = "select * from room where title like ? or description like ? or category like ? or roomType like ? or  address like ? or city like ? or pincode like ? or state like ? order by id desc";
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, "%" + ch + "%");
+			ps.setString(2, "%" + ch + "%");
+			ps.setString(3, "%" + ch + "%");
+			ps.setString(4, "%" + ch + "%");
+			ps.setString(5, "%" + ch + "%");
+			ps.setString(6, "%" + ch + "%");
+			ps.setString(7, "%" + ch + "%");
+			ps.setString(8, "%" + ch + "%");
+			rs = ps.executeQuery();
+			rooms = getRoom(rs);
+
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return rooms;

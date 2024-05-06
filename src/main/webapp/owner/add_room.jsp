@@ -59,7 +59,7 @@
 										<%
 										}
 										%>
-										<option>PG</option>
+										
 									</select>
 								</div>
 								<div class="mb-3 col">
@@ -126,7 +126,7 @@
 									<label>Pincode</label> <input type="text" class="form-control"
 										name="pincode">
 								</div>
-								<input type="text" class="form-control" name="ownerId"
+								<input type="hidden" class="form-control" name="ownerId"
 									value="<%=user.getId()%>">
 							</div>
 							<button class="btn btn-primary col-md-12">Submit</button>

@@ -32,11 +32,13 @@ public class UpdateRoom extends HttpServlet {
 		String city = req.getParameter("city");
 		String state = req.getParameter("state");
 		String pincode = req.getParameter("pincode");
+		String status=req.getParameter("status");
 		int ownerId = Integer.parseInt(req.getParameter("ownerId"));
 		int id = Integer.parseInt(req.getParameter("id"));
 
 		Room room = new Room(title, category, roomType, description, email, mobileNumber, monthlyCost, locationLink,
 				distance, address, city, state, pincode, ownerId);
+		room.setStatus(status);
 		room.setId(id);
 
 		HttpSession session = req.getSession();

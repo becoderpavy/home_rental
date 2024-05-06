@@ -255,6 +255,37 @@ public class UserDAO {
 		return list;
 	}
 
+	public List<User> getAllUserByType(String type) {
+		User user = null;
+		List<User> list = new ArrayList<User>();
+		try {
+			String sql = "select * from user where user=?  order by id desc";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, type);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				user = new User();
+				user.setId(rs.getInt(1));
+				user.setFullName(rs.getString(2));
+				user.setEmail(rs.getString(3));
+				user.setMobNo(rs.getString(4));
+				user.setPassword(rs.getString(5));
+				user.setAddress(rs.getString(6));
+				user.setCity(rs.getString(7));
+				user.setState(rs.getString(8));
+				user.setPin(rs.getString(9));
+				user.setImage(rs.getString(10));
+				user.setUser(rs.getString(11));
+				user.setIdProof(rs.getString(12));
+				list.add(user);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
 	public boolean deleteUser(int id) {
 		boolean f = false;
 		try {

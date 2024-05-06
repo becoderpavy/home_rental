@@ -16,9 +16,9 @@
 <%@include file="../component/css.jsp"%>
 </head>
 <body>
-	<%-- <c:if test="${empty adminObj }">
+	<c:if test="${empty userObj }">
 		<c:redirect url="../login.jsp"></c:redirect>
-	</c:if> --%>
+	</c:if>
 	<%@include file="navbar.jsp"%>
 	<div class="container">
 		<div class="row p-5 mt-3">
@@ -133,6 +133,25 @@
 								<div class="col mb-3">
 									<label>Pincode</label> <input type="text" class="form-control"
 										value="<%=rm.getPincode()%>" name="pincode">
+								</div>
+								<div class="col mb-3">
+									<label>Status</label><select class="form-control" name="status">
+
+										<%
+										if (rm.getStatus().equals("Available")) {
+										%>
+										<option>Available</option>
+										<option>Not Available</option>
+										<%
+										} else {
+										%>
+										<option>Not Available</option>
+										<option>Available</option>
+										<%
+										}
+										%>
+
+									</select>
 								</div>
 								<input type="hidden" class="form-control" name="ownerId"
 									value="1"> <input type="hidden" class="form-control"

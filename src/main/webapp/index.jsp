@@ -1,3 +1,4 @@
+<%@page import="com.mysql.cj.util.StringUtils"%>
 <%@page import="com.entity.RoomImage"%>
 <%@page import="com.entity.Room"%>
 <%@page import="com.entity.RoomType"%>
@@ -20,7 +21,7 @@
 		class="container-fluid p-4 mt-5 bg-custom bg-primary border-outline-white">
 		<div class="row">
 			<div class="col-md-8 offset-md-2">
-				<form action="search.jsp" method="post">
+				<form action="index.jsp" method="get">
 					<div class="input-group">
 						<input type="text" class="form-control" name="ch">
 						<button class="btn btn-light ms-2 col-md-2 text-dark">
@@ -37,37 +38,36 @@
 		<div class="row">
 
 			<div class="col-md-2">
-				<div class="card">
+				<div class="card ">
 					<div class="card-body">
 						<div>
 							<p class="fs-5 text-center">Categories</p>
-							<div class="list-group" style="width: 100%;">
-								<a href="product.jsp?ca=all"
+							<div class="list-group card-sh" style="width: 100%;">
+								<a href="index.jsp?ca="
 									class="list-group-item list-group-item-action "
 									aria-current="true"> All </a>
 
 								<%
+								String category = request.getParameter("ca");
+								String roomType = request.getParameter("ra");
+								String search = request.getParameter("ch");
 								RoomDAO dao = new RoomDAO(DBConnect.getConnection());
 								List<Category> list = dao.getAllCategory();
 								for (Category c : list) {
 								%>
-								<a href="product.jsp?ca=1Bhk"
-									class="list-group-item list-group-item-action"><%=c.getName()%>
+								<a href="index.jsp?ca=<%=c.getName()%>"
+									class="list-group-item list-group-item-action <%if (c.getName().equals(category)) {%>active <%}%> "><%=c.getName()%>
 								</a>
 								<%
 								}
 								%>
-
-
-			
-
 							</div>
 						</div>
 						<div class="mt-3">
 							<p class="fs-5 text-center">Room Type</p>
-							<div class="list-group" style="width: 100%;">
+							<div class="list-group card-sh" style="width: 100%;">
 
-								<a href="product.jsp?ca=all"
+								<a href="index.jsp?ra="
 									class="list-group-item list-group-item-action "
 									aria-current="true"> All </a>
 
@@ -75,16 +75,12 @@
 								List<RoomType> rooms = dao.getAllRoomType();
 								for (RoomType r : rooms) {
 								%>
-								<a href="product.jsp?ca=1Bhk"
-									class="list-group-item list-group-item-action"><%=r.getName()%>
+								<a href="index.jsp?ra=<%=r.getName()%>"
+									class="list-group-item list-group-item-action <%if (r.getName().equals(roomType)) {%>active <%}%> "><%=r.getName()%>
 								</a>
 								<%
 								}
 								%>
-
-								<a href="product.jsp?ca=1Bhk"
-									class="list-group-item list-group-item-action">2 BHK </a>
-
 							</div>
 						</div>
 					</div>
@@ -98,20 +94,33 @@
 						<div class="row">
 							<%
 							RoomDAO roomDao = new RoomDAO(DBConnect.getConnection());
-							List<Room> rms = roomDao.getAllRoom();
-							for (Room rm : rms) {
-								List<RoomImage> images = dao.getRoomImageByRoomId(rm.getId());
-								if (images.size() > 0) {
+							List<Room> rms = null;
+							if (category != null && category.length() > 0) {
+								rms = roomDao.getRoomByCategory(category);
+							} else if (roomType != null && roomType.length() > 0) {
+								rms = roomDao.getRoomByRoomType(roomType);
+							} else if (search != null && search.length() > 0) {
+								rms = roomDao.getRoomBySearch(search);
+							} else {
+								rms = roomDao.getAllRoom();
+							}
+							int controlId=0;
+							if (rms != null && rms.size() > 0) {
+								for (Room rm : rms) {
+									List<RoomImage> images = dao.getRoomImageByRoomId(rm.getId());
+									if (images.size() > 0) {
+										controlId++;
 							%>
 							<div class="col-md-3 mt-3">
 								<div class="card card-sh">
 									<div class="card-body">
-										<div id="carouselExample" class="carousel slide">
+										<div id="carouselExample+<%=controlId %>" class="carousel slide">
 											<div class="carousel-inner">
 												<%
+												int i = 0;
 												for (RoomImage img : images) {
 												%>
-												<div class="carousel-item active">
+												<div class="carousel-item <%if (i == 0){i++;%>active<%}%>">
 													<img src="data/img/product_img/<%=img.getImage()%>"
 														width="100%" height="150px" class="d-block w-100"
 														alt="...">
@@ -119,19 +128,15 @@
 												<%
 												}
 												%>
-												<!-- <div class="carousel-item active">
-													<img src="data/img/product_img/"
-														width="100%" height="150px" class="d-block w-100"
-														alt="...">
-												</div> -->
+
 											</div>
 											<button class="carousel-control-prev" type="button"
-												data-bs-target="#carouselExample" data-bs-slide="prev">
+												data-bs-target="#carouselExample+<%=controlId %>" data-bs-slide="prev">
 												<span class="carousel-control-prev-icon" aria-hidden="true"></span>
 												<span class="visually-hidden">Previous</span>
 											</button>
 											<button class="carousel-control-next" type="button"
-												data-bs-target="#carouselExample" data-bs-slide="next">
+												data-bs-target="#carouselExample+<%=controlId %>" data-bs-slide="next">
 												<span class="carousel-control-next-icon" aria-hidden="true"></span>
 												<span class="visually-hidden">Next</span>
 											</button>
@@ -139,9 +144,13 @@
 
 
 										<p class="text-center">
-											<a href="home.jsp?id=<%=rm.getId() %>" class="fs-5 text-decoration-none">Royal
-												White House </a> <br> &#8377;<%=rm.getMonthlyCost() %>/Month <a href="#"
-												class="text-decoration-none text-success"><i
+											<a href="home.jsp?id=<%=rm.getId()%>"
+												class="fs-5 text-decoration-none"><%=rm.getTitle()%> </a> <br>
+											&#8377;<%=rm.getMonthlyCost()%>/Month <br>From you
+											location <br>near to <span
+												style="font-weight: bold; font-size: 20px"><%=rm.getDistance()%></span><a
+												href="map.jsp?id=<%=rm.getId()%>"
+												class="text-decoration-none text-success"> <i
 												class="fa-solid fa-location-dot"></i></a>
 										</p>
 									</div>
@@ -149,6 +158,11 @@
 							</div>
 							<%
 							}
+							}
+							} else {
+							%>
+							<h4 class="text-center text-danger">Room Not Available</h4>
+							<%
 							}
 							%>
 

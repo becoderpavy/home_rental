@@ -26,10 +26,8 @@ response.setDateHeader("Expires", 0);
 
 	<div class="container mt-5 p-5">
 		<div class="row">
-			<div class="col-md-5 p-5">
-				<img alt="" src="data/img/ecom.png" width="100%" height="400px">
-			</div>
-			<div class="col-md-6 offset-md-1 mt-1">
+			
+			<div class="col-md-6 offset-md-3 mt-1">
 				<div class="card card-sh">
 					<div class="card-header">
 						<p class="fs-5 text-center">Register</p>

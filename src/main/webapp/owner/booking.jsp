@@ -17,9 +17,9 @@
 <%@include file="../component/css.jsp"%>
 </head>
 <body>
-	<%-- <c:if test="${empty adminObj }">
+	<c:if test="${empty userObj }">
 		<c:redirect url="../login.jsp"></c:redirect>
-	</c:if> --%>
+	</c:if>
 	<%
 	//int id = Integer.parseInt(request.getParameter("id"));
 	RoomDAO dao = new RoomDAO(DBConnect.getConnection());
@@ -79,8 +79,8 @@
 									class="badge btn btn-sm btn-primary">Approve</a> <a
 									href="../updateStatus?id=<%=b.getId()%>&&status=Reject"
 									class="badge btn btn-sm btn-danger">Reject</a> <%
-									 } else {
-									 %> <a href="#" class="badge btn btn-sm btn-primary"><%=b.getStatus()%></a>
+ } else {
+ %> <a href="#" class="badge btn btn-sm btn-primary"><%=b.getStatus()%></a>
 									<%
 									}
 									%>
@@ -89,21 +89,21 @@
 									<%
 									if (b.getStatus().equals("Pending")) {
 									%> <span class="badge bg-warning text-light">Pending</span> <%
-									 } else if (b.getStatus().equals("Approved")) {
-									 %> <span class="badge bg-success text-light">Approved</span> <%
-									 } else {
-									 %> <span class="badge bg-danger text-light">Rejected</span> <%
-									 }
-									 %>
+ } else if (b.getStatus().equals("Approved")) {
+ %> <span class="badge bg-success text-light">Approved</span> <%
+ } else {
+ %> <span class="badge bg-danger text-light">Rejected</span> <%
+ }
+ %>
 								</td>
 								<td class="text-center">
 									<%
 									if (b.getPayment().equals("yes")) {
 									%> <span class="badge bg-success text-light">Success</span> <%
-									 } else {
-									 %> No <%
-									 }
-									 %>
+ } else {
+ %> No <%
+ }
+ %>
 								</td>
 							</tr>
 							<%

@@ -6,6 +6,8 @@
 <%@page import="com.dao.RoomDAO"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@page isELIgnored="false"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -93,10 +95,10 @@
 							<span class="fw-bold">Description : </span><br><%=room.getDescription()%>
 						</p>
 						<p>
-							<span class="fw-bold"> Product Details: </span> <br>Status :
+							<span class="fw-bold"> Room Details: </span> <br>Status :
 							<%
-							 if (room.getStatus().equalsIgnoreCase("Available")) {
-							 %>
+ if (room.getStatus().equalsIgnoreCase("Available")) {
+ %>
 							<span class="badge bg-success">Available</span>
 							<%
 							} else {
@@ -115,18 +117,45 @@
 							<%=room.getMonthlyCost()%>/Month
 						</p>
 						<c:if test="${empty userObj }">
+							<%
+							if (room.getStatus().equals("Not Available")) {
+							%>
+							<a href="#" class="btn btn-warning col-md-12">Not Available</a>
+							<%
+							} else {
+							%>
 							<a href="login.jsp" class="btn btn-danger col-md-12">Book</a>
+							<%
+							}
+							%>
+
 						</c:if>
 						<c:if test="${not empty userObj }">
+							<%
+							if (room.getStatus().equals("Not Available")) {
+							%>
+							<a href="#" class="btn btn-warning col-md-12">Not Available</a>
+							<%
+							} else {
+							%>
 							<a href="booking.jsp?id=<%=room.getId()%>"
 								class="btn btn-danger col-md-12">Book</a>
-						</c:if>
+							<%
+							}
+							%>
 
+						</c:if>
+						<div class="col-md-6 mt-4">
+							<p class="mt-5 text-center" style="margin-left: 250px">Map</p>
+							<%=room.getLocationLink()%>
+						</div>
 					</div>
+
 				</div>
 			</div>
 
 		</div>
 	</div>
+
 </body>
 </html>

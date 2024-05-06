@@ -10,48 +10,37 @@
 <%@include file="../component/css.jsp"%>
 </head>
 <body>
-	<c:if test="${empty userObj }">
+	<c:if test="${empty adminObj }">
 		<c:redirect url="../login.jsp"></c:redirect>
 	</c:if>
 	<%@include file="navbar.jsp"%>
 	<div class="container">
-
 		<div class="row p-5 mt-5">
-			<h3 class="text-center mb-5">Owner Dashboard</h3>
-			<div class="col-md-4">
-				<a href="add_room.jsp" class="text-decoration-none">
-					<div class="card card-sh">
-						<div class="card-body text-center">
-							<i class="fas fa-plus-square fa-3x text-primary"></i><br>
-							<h4>Add Room</h4>
-							-----------
-						</div>
-					</div>
-				</a>
-			</div>
-			<div class="col-md-4">
-				<a href="view_room.jsp" class="text-decoration-none">
+			<h3 class="text-center mb-5">Admin Dashboard</h3>
+			<div class="col-md-4 offset-md-2">
+				<a href="view_owner.jsp" class="text-decoration-none">
 					<div class="card card-sh">
 						<div class="card-body text-center">
 							<i class="fas fa-sign-out-alt fa-3x text-primary"></i><br>
-							<h4>View Room</h4>
+							<h4>View Owner</h4>
+							-----------
+						</div>
+					</div>
+				</a>
+			</div>
+			<div class="col-md-4">
+				<a href="view_student.jsp" class="text-decoration-none">
+					<div class="card card-sh">
+						<div class="card-body text-center">
+							<i class="fas fa-sign-out-alt fa-3x text-primary"></i><br>
+							<h4>View Student</h4>
 							-----------
 						</div>
 					</div>
 				</a>
 			</div>
 
-			<div class="col-md-4">
-				<a href="booking.jsp" class="text-decoration-none">
-					<div class="card card-sh">
-						<div class="card-body text-center">
-							<i class="fas fa-book-open fa-3x text-danger"></i></i><br>
-							<h4>Booking</h4>
-							-----------
-						</div>
-					</div>
-				</a>
-			</div>
+
 		</div>
 
 	</div>

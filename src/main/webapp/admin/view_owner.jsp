@@ -1,3 +1,5 @@
+<%@page import="com.entity.User"%>
+<%@page import="com.dao.UserDAO"%>
 <%@page import="com.entity.Room"%>
 <%@page import="com.util.DBConnect"%>
 <%@page import="com.dao.RoomDAO"%>
@@ -14,15 +16,15 @@
 <%@include file="../component/css.jsp"%>
 </head>
 <body>
-	<c:if test="${empty userObj }">
+	<%-- <c:if test="${empty adminObj }">
 		<c:redirect url="../login.jsp"></c:redirect>
-	</c:if>
+	</c:if> --%>
 	<%@include file="navbar.jsp"%>
 	<div class="container">
 		<div class="row p-5 mt-3">
 			<div class="card card-sh">
 				<div class="card-header">
-					<h3 class="text-center">View Rooms</h3>
+					<h3 class="text-center">View Owners</h3>
 					<c:if test="${not empty errorMsg}">
 						<p class="fs-4 text-center text-danger">${errorMsg}</p>
 						<c:remove var="errorMsg" scope="session" />
@@ -37,35 +39,29 @@
 						<thead>
 							<tr>
 								<th scope="col">SL No</th>
-								<th scope="col">Title</th>
-								<th scope="col">Category</th>
-								<th scope="col">Room Type</th>
-								<th scope="col">Price / Monthly</th>
-								<th scope="col">Action</th>
+								<th scope="col">Name</th>
+								<th scope="col">Email</th>
+								<th scope="col">Mobile Number</th>
+								<th scope="col">Address</th>
+								<th scope="col">User Type</th>
 							</tr>
 						</thead>
 						<tbody>
 							<%
 							int i = 0;
+							UserDAO dao2 = new UserDAO(DBConnect.getConnection());
 							RoomDAO dao = new RoomDAO(DBConnect.getConnection());
-							List<Room> rooms = dao.getAllRoom();
-							for (Room rm : rooms) {
+							List<User> students = dao2.getAllUserByType("Owner");
+							for (User u : students) {
 								i++;
 							%>
 							<tr>
 								<td><%=i%></td>
-								<td><%=rm.getTitle()%></td>
-								<td><%=rm.getCategory()%></td>
-								<td><%=rm.getRoomType()%></td>
-								<td><%=rm.getMonthlyCost()%></td>
-								<td><a href="near_location.jsp?id=<%=rm.getId()%>"
-									class="btn btn-sm btn-success">Location</a> <a
-									href="image_upload.jsp?id=<%=rm.getId()%>"
-									class="btn btn-sm btn-warning"> Upload Image</a> <a
-									href="edit_room.jsp?id=<%=rm.getId()%>"
-									class="btn btn-sm btn-primary">Edit</a> <a
-									href="deleteRoom?id=<%=rm.getId()%>"
-									class="btn btn-sm btn-danger">Delete</a></td>
+								<td><%=u.getFullName()%></td>
+								<td><%=u.getEmail()%></td>
+								<td><%=u.getMobNo()%></td>
+								<td><%=u.getAddress()%>,<%=u.getCity()%><br><%=u.getState()%>,<%=u.getPin()%></td>
+								<td><%=u.getUser() %></td>
 							</tr>
 							<%
 							}
